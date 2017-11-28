@@ -1,0 +1,76 @@
+ALGORITHME: jeu de l'oie
+//BUT: Afficher une version textuelle du jeu de l'oie
+//ENTREE: valeur du jet des dés
+//SORTIE: nombre de cases à avancer
+
+VAR
+	place, de, sommedes, memde :ENTIER
+	fin :BOOLEEN
+
+DEBUT
+	
+	place<-0
+	de<-0
+	sommedes<-0
+	memde<-0
+	fin<-FAUX
+
+//Boucle repeter jusqu'a pour relancer la demande du resultat des jets des dés
+sauf si le joueur arrive en 66, dans quel cas le jeu se termine.
+
+	REPETER
+
+		ECRIRE 'veuillez entrer le résultat de votre premier jet'
+		LIRE de
+		sommedes<-sommedes+de
+		ECRIRE 'veuillez entrer le résultat de votre second jet'
+		LIRE de
+		sommedes<-sommedes+de
+
+		TANTQUE ((de<1) OU (de>6)) FAIRE
+			sommedes<-0
+			ECRIRE 'erreur, relancez vos dés'
+			ECRIRE 'veuillez entrer le résultat de votre premier jet'
+			LIRE de
+			sommedes<-sommedes+de
+			ECRIRE 'veuillez entrer le résultat de votre second jet'
+			LIRE de
+			sommedes<-sommedes+de
+		FINTANTQUE
+
+		place<-place+sommedes
+		ECRIRE 'votre position est : ',place
+		memde<-sommedes
+		sommedes<-0
+
+		//Si le joueur arrive a la case 53, il retourne a la case depart
+
+		SI place=58 ALORS
+			ECRIRE 'you died'
+			place<-0
+			ECRIRE 'votre position est : ',place
+		FINSI
+
+		//Si il arrive sur la case 9, son jet est doublé
+
+		TANTQUE (place MOD 9=0) ET (place<62) FAIRE
+			ECRIRE 'Vous avez trouve une oie, votre jet est double '
+			place<-place+memde
+			ECRIRE 'votre position est : ',place
+
+		//Si il arrive à la case 66, il gagne, et le jeu se termine (on sort donc de la boucle)
+
+		SI place=66 ALORS
+			fin<-VRAI
+		SINON
+			SI place>66 ALORS
+				ECRIRE 'Vous etes parti trop loin !'
+				place<-(place-((place-66)*2))
+				ECRIRE 'votre position est : ',place
+		FINSI
+		
+	JUSQU'A fin=VRAI
+
+	ECRIRE 'Felicitations ! La victoire vous appartient.'
+
+FIN
